@@ -8,12 +8,10 @@
             rel="stylesheet"
             href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         />
-        <link
-            rel="stylesheet"
-            href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-            integrity="sha384-100oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+        <script
+            src="https://kit.fontawesome.com/10b37400f6.js"
             crossorigin="anonymous"
-        />
+        ></script>
         <link
             href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap"
             rel="stylesheet"
@@ -30,23 +28,73 @@
             </p>
             <p id="currentDay" class="lead"></p>
         </header>
-        <div class="container">
+        <div class="container mb-3">
             <!-- Timeblocks go here -->
-            <div class="time-block">
-                <div class="row">
-                    <div class="hour">9AM</div>
-                    <textarea id="nine-am" cols="100" rows="3"></textarea>
-                    <button class="saveBtn">Save</button>
-                </div>
-            </div>
-            
-              <div class="row">
-                  <div class="hour">10AM</div>
-                  <textarea id="ten-am" cols="100" rows="3"></textarea>
-                  <button class="saveBtn">Save</button>
+            <div id="hour-9" class="row time-block">
+              <div class="col-md-1 hour">
+                9AM
               </div>
-          
-
+              <textarea class="col-md-10 description">
+              </textarea>
+              <button class="btn saveBtn col-md-1"><i class="fa-solid fa-floppy-disk"></i></button>
+            </div>
+            <div id="hour-10" class="row time-block">
+              <div class="col-md-1 hour">
+                10AM
+              </div>
+              <textarea class="col-md-10 description">
+              </textarea>
+              <button class="btn saveBtn col-md-1"><i class="fa-solid fa-floppy-disk"></i></button>
+            </div>
+            <div id="hour-11" class="row time-block">
+              <div class="col-md-1 hour">
+                11AM
+              </div>
+              <textarea class="col-md-10 description">
+              </textarea>
+              <button class="btn saveBtn col-md-1"><i class="fa-solid fa-floppy-disk"></i></button>
+            </div>
+            <div id="hour-12" class="row time-block">
+              <div class="col-md-1 hour">
+                12AM
+              </div>
+              <textarea class="col-md-10 description">
+              </textarea>
+              <button class="btn saveBtn col-md-1"><i class="fa-solid fa-floppy-disk"></i></button>
+            </div>
+            <div id="hour-1" class="row time-block">
+              <div class="col-md-1 hour">
+                1PM
+              </div>
+              <textarea class="col-md-10 description">
+              </textarea>
+              <button class="btn saveBtn col-md-1"><i class="fa-solid fa-floppy-disk"></i></button>
+            </div>
+            <div id="hour-2" class="row time-block">
+              <div class="col-md-1 hour">
+                2PM
+              </div>
+              <textarea class="col-md-10 description">
+              </textarea>
+              <button class="btn saveBtn col-md-1"><i class="fa-solid fa-floppy-disk"></i></button>
+            </div>
+            <div id="hour-3" class="row time-block">
+              <div class="col-md-1 hour">
+                3PM
+              </div>
+              <textarea class="col-md-10 description">
+              </textarea>
+              <button class="btn saveBtn col-md-1"><i class="fa-solid fa-floppy-disk"></i></button>
+            </div>
+            <div id="hour-4" class="row time-block">
+              <div class="col-md-1 hour">
+                4PM
+              </div>
+              <textarea class="col-md-10 description">
+              </textarea>
+              <button class="btn saveBtn col-md-1"><i class="fa-solid fa-floppy-disk"></i></button>
+            </div>
+           
         </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
