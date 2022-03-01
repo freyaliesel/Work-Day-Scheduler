@@ -1,5 +1,5 @@
 var timeBlocks = $(".time-block");
-var time;
+var time = dayjs().format("hA");
 var schedule = {};
 
 // testing area
@@ -76,24 +76,30 @@ function saveToDo(event) {
     console.log(schedule);
 }
 
-
 // change color of time blocks based on time
 function colorCoding() {
     console.log(`color code timeblocks`);
-
+    timeBlocks.each(function () {
+        var current = $(this);
+        var currentTime = current.children("div").text().trim();
+        var currentText = current.children("textarea");
+        if (currentTime == time) {
+            console.log(time);
+            currentText.attr("class", "col-md-10 description present");
+        }
+    });
 }
 
 // DEFINITIONS ONLY ABOVE THIS POINT
 
 // timer function to track and update time and date
-    setInterval(function () {
-        time = dayjs().format("hA");
-        $("#currentTime").text(dayjs().format("hh:mm:ss"));
-    }, 1000);
+setInterval(function () {
+    time = dayjs().format("hA");
+    $("#currentTime").text(dayjs().format("hh:mm:ss"));
+}, 1000);
 
 // display the date
 $("#currentDay").text(dayjs().format("dddd, MMM Do, YYYY"));
-
 
 showSchedule();
 
