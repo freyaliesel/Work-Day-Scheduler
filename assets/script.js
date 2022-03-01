@@ -1,6 +1,5 @@
-var today = dayjs();
 var timeBlocks = $(".time-block");
-
+var time;
 var schedule = {};
 
 // testing area
@@ -17,7 +16,7 @@ var testSchedule = {
     five: "",
 };
 // console.log(testSchedule);
-localStorage.setItem("schedule", JSON.stringify(testSchedule));
+// localStorage.setItem("schedule", JSON.stringify(testSchedule));
 // end testing area
 
 // check if there is a schedule in local memory
@@ -26,12 +25,12 @@ function checkSchedule() {
     var savedSchedule = JSON.parse(localStorage.getItem("schedule"));
 
     if (savedSchedule !== null) {
-        if (savedSchedule.date === today.format("MM DD YYYY")) {
+        if (savedSchedule.date === dayjs().format("MM DD YYYY")) {
             schedule = savedSchedule;
         }
     } else {
         schedule = {
-            date: today.format("MM DD YYYY"),
+            date: dayjs().format("MM DD YYYY"),
             nine: "",
             ten: "",
             eleven: "",
@@ -43,7 +42,6 @@ function checkSchedule() {
             five: "",
         };
     }
-    console.log(schedule);
 }
 
 // display saved schedule if it is for today
@@ -59,6 +57,7 @@ function showSchedule() {
             }
         }
     });
+    colorCoding();
 }
 
 // save to/do's
@@ -72,17 +71,29 @@ function saveToDo(event) {
             schedule[key] = current.siblings("textarea").val();
         }
     });
+
+    localStorage.setItem("schedule", JSON.stringify(schedule));
     console.log(schedule);
 }
 
-// timer function to track time
 
-// function to change color of time blocks based on time
+// change color of time blocks based on time
+function colorCoding() {
+    console.log(`color code timeblocks`);
+
+}
 
 // DEFINITIONS ONLY ABOVE THIS POINT
 
+// timer function to track and update time and date
+    setInterval(function () {
+        time = dayjs().format("hA");
+        $("#currentTime").text(dayjs().format("hh:mm:ss"));
+    }, 1000);
+
 // display the date
-$("#currentDay").text(today.format("dddd, MMM Do, YYYY"));
+$("#currentDay").text(dayjs().format("dddd, MMM Do, YYYY"));
+
 
 showSchedule();
 

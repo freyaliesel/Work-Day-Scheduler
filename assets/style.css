@@ -21,6 +21,10 @@ textarea {
     border-bottom: 10px solid black;
 }
 
+#currentTime {
+    font-family: monospace;
+}
+
 .description {
     white-space: pre-wrap;
 }
