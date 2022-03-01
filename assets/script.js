@@ -1,4 +1,5 @@
 var today = dayjs();
+var timeBlocks = $(".time-block");
 
 var schedule = {};
 
@@ -9,7 +10,7 @@ var testSchedule = {
     ten: "",
     eleven: "",
     twelve: "",
-    one: "",
+    one: "another test",
     two: "",
     three: "",
     four: "",
@@ -50,12 +51,22 @@ function checkSchedule() {
 // display saved schedule if it is for today
 function showSchedule() {
     checkSchedule();
-    console.log("updating schedule");
+    console.log("showing current schedule");
     
+    // console.log(timeBlocks.children("textarea").val)
+
+    timeBlocks.each(function() {
+        var current = $(this)
+        for (const [key, value] of Object.entries(schedule)) {
+            if (current.attr("id") == key) {
+                current.children("textarea").val(value);
+            }
+        }
+    })
 }
 
 
-// function to save to/do's
+// save to/do's
 function saveToDo(event) {
     event.preventDefault();
     var toDo = $(event.currentTarget).siblings("textarea").val();
