@@ -16,22 +16,20 @@ var testSchedule = {
     four: "",
     five: "",
 };
-console.log(testSchedule);
+// console.log(testSchedule);
 localStorage.setItem("schedule", JSON.stringify(testSchedule));
 // end testing area
-
 
 // check if there is a schedule in local memory
 function checkSchedule() {
     console.log("checking for saved schedule");
     var savedSchedule = JSON.parse(localStorage.getItem("schedule"));
-    
+
     if (savedSchedule !== null) {
         if (savedSchedule.date === today.format("MM DD YYYY")) {
             schedule = savedSchedule;
         }
-    }
-    else {
+    } else {
         schedule = {
             date: today.format("MM DD YYYY"),
             nine: "",
@@ -43,7 +41,7 @@ function checkSchedule() {
             three: "",
             four: "",
             five: "",
-        }
+        };
     }
     console.log(schedule);
 }
@@ -52,25 +50,29 @@ function checkSchedule() {
 function showSchedule() {
     checkSchedule();
     console.log("showing current schedule");
-    
-    // console.log(timeBlocks.children("textarea").val)
 
-    timeBlocks.each(function() {
-        var current = $(this)
+    timeBlocks.each(function () {
+        var current = $(this);
         for (const [key, value] of Object.entries(schedule)) {
             if (current.attr("id") == key) {
                 current.children("textarea").val(value);
             }
         }
-    })
+    });
 }
-
 
 // save to/do's
 function saveToDo(event) {
     event.preventDefault();
-    var toDo = $(event.currentTarget).siblings("textarea").val();
-    console.log(toDo);
+    var current = $(event.currentTarget);
+
+    // save the text in the matching spot in the schedule
+    Object.keys(schedule).forEach(function (key) {
+        if (current.parent("div").attr("id") == key) {
+            schedule[key] = current.siblings("textarea").val();
+        }
+    });
+    console.log(schedule);
 }
 
 // timer function to track time
