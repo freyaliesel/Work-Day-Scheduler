@@ -1,8 +1,11 @@
-var today = moment();
+var today = dayjs();
 
-const schedule = {
-    date: today,
-    nine: "",
+var schedule = {};
+
+// testing area
+var testSchedule = {
+    date: "03 01 2022",
+    nine: "test",
     ten: "",
     eleven: "",
     twelve: "",
@@ -10,34 +13,63 @@ const schedule = {
     two: "",
     three: "",
     four: "",
+    five: "",
+};
+console.log(testSchedule);
+localStorage.setItem("schedule", JSON.stringify(testSchedule));
+// end testing area
 
-}
-
-// first display the date
-$("#currentDay").text(today.format("MMM Do, YYYY"));
-
-// display saved schedule if it is for today
-function showSchedule() {
-    checkSchedule();
-    console.log("updating schedule");
-}
 
 // check if there is a schedule in local memory
 function checkSchedule() {
     console.log("checking for saved schedule");
     var savedSchedule = JSON.parse(localStorage.getItem("schedule"));
-
+    
+    if (savedSchedule !== null) {
+        if (savedSchedule.date === today.format("MM DD YYYY")) {
+            schedule = savedSchedule;
+        }
+    }
+    else {
+        schedule = {
+            date: today.format("MM DD YYYY"),
+            nine: "",
+            ten: "",
+            eleven: "",
+            twelve: "",
+            one: "",
+            two: "",
+            three: "",
+            four: "",
+            five: "",
+        }
+    }
+    console.log(schedule);
 }
 
-// function to change color of time blocks based on time
+// display saved schedule if it is for today
+function showSchedule() {
+    checkSchedule();
+    console.log("updating schedule");
+    
+}
+
 
 // function to save to/do's
 function saveToDo(event) {
     event.preventDefault();
-    var toDo =($(event.currentTarget).siblings("textarea").val());
+    var toDo = $(event.currentTarget).siblings("textarea").val();
     console.log(toDo);
-
 }
+
+// timer function to track time
+
+// function to change color of time blocks based on time
+
+// DEFINITIONS ONLY ABOVE THIS POINT
+
+// display the date
+$("#currentDay").text(today.format("dddd, MMM Do, YYYY"));
 
 showSchedule();
 
