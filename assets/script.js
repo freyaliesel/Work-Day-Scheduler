@@ -51,7 +51,7 @@ function checkSchedule() {
 function showSchedule() {
     checkSchedule();
     console.log("showing current schedule");
-    let index = 0;
+    let index = 9;
     console.log(Object.entries(schedule));
 
     // schedule.hours.forEach((hour) => {
