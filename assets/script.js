@@ -42,19 +42,21 @@ function checkSchedule() {
 // display saved schedule if it is for today
 // this needs to generate the html
 function showSchedule() {
+    var index = 9;
     checkSchedule();
     console.log("showing current schedule");
 
     schedule.hours.forEach((hour) => {
         var rowEl = $("<div>").addClass("row time-block");
-        var colEl = $("<div>").addClass("d-flex justify-content-center align-items-center text-center col-1 hour").text("test");
-        var inputEl = $("<textarea>").addClass("col-10 description");
+        var colEl = $("<div>").addClass("d-flex justify-content-center align-items-center text-center col-1 hour").text(dayjs().hour(index).minute(0).second(0).format('hA'));
+        var inputEl = $("<textarea>").addClass("col-10 description").val(hour);
         var btnEl = $("<button>").addClass("btn saveBtn col-1");
         var iconEl = $("i").addClass("fa-solid fa-floppy-disk");
         btnEl.append(iconEl);
         rowEl.append(colEl, inputEl, btnEl);
         $('.container').append(rowEl)
-        console.log(rowEl);
+        index++;
+        // console.log(rowEl.children());
     });
 
     // colorCoding();
