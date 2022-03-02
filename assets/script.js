@@ -20,7 +20,8 @@ var testSchedule = {
 // end testing area
 
 // check if there is a schedule in local memory
-// may need to adjust property names, otherwise doesnt need to change for iterative generation
+// need to change structure of object. I need to access the hours individually, compare time, and get at the text
+// currently seems overly complicated, and there is probably a better approach
 function checkSchedule() {
     console.log("checking for saved schedule");
     var savedSchedule = JSON.parse(localStorage.getItem("schedule"));
@@ -54,6 +55,8 @@ function showSchedule() {
     let index = 9;
     console.log(Object.entries(schedule));
 
+    // commented out while I figure out object structure
+    // tighten this up after everything's working
     // schedule.hours.forEach((hour) => {
     //     var rowEl = $("<div>").addClass("row time-block").attr('id', PLACEHOLDERVALUE);
     //     var colEl = $("<div>").addClass("d-flex justify-content-center align-items-center text-center col-1 hour").text(dayjs().hour(index).format('hA'));
@@ -71,7 +74,7 @@ function showSchedule() {
 }
 
 // save to/do's
-// this will probably need to change to account for changes in how the html is generated
+// this will need to change to account for changes in how the html is generated
 function saveToDo(event) {
     event.preventDefault();
     console.log(`saving toDo`);
@@ -90,7 +93,6 @@ function saveToDo(event) {
 }
 
 // change color of time blocks based on time
-// this may not need to exist?
 // lowest priority
 // function colorCoding() {
 //     console.log(`color code timeblocks`);
