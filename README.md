@@ -28,7 +28,7 @@ Assignment is to build on top of base code, and use JQuery and a date utility li
 >THEN the text for that event is saved in local storage
 >WHEN I refresh the page
 >THEN the saved events persist
->```
+
 
 I went beyond spec and added additional features:
 

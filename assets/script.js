@@ -88,6 +88,7 @@ function displayDate() {
 }
 
 function autoSave () {
+    console.log(`autosaving`)
     $("textarea").each(function() {
         for (var toDo of Object.keys(schedule.toDos)) {
             if ($(this).parent("div").attr("id") == toDo)
@@ -104,12 +105,10 @@ setInterval(function () {
         autoSave();
         showSchedule;
     }
-
 }, 1000);
 
 displayDate();
 showSchedule();
-
 
 // event listener/delegation for buttons
 $(".container").on("click", "button", saveToDo);
