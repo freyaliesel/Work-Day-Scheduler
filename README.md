@@ -29,3 +29,15 @@ Assignment is to build on top of base code, and use JQuery and a date utility li
 >WHEN I refresh the page
 >THEN the saved events persist
 >```
+
+I went beyond spec and added additional features:
+
++ Check for schedule diregards saved schedule if the date is not current date
++ Added Clock displaying user's local time
++ App auto saves tasks on the hour
++ App updates html on the hour
+
+
+Repo is located at [GitHub/freyaliesel](https://github.com/freyaliesel/Work-Day-Scheduler)
+
+![Image of live page hosted on GitHub](./assets/images/live-page.png)
