@@ -73,7 +73,7 @@ function showSchedule() {
             .addClass("col-10 description")
             .val(toDo)
             .appendTo(rowEl);
-        $("<button>").addClass("btn saveBtn col-1").appendTo(rowEl);
+        var btnEl = $("<button>").addClass("btn saveBtn col-1").appendTo(rowEl);
         $("<i>").addClass("fa-solid fa-floppy-disk").appendTo(btnEl);
     }
     // colorCoding();
