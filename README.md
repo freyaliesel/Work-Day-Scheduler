@@ -32,7 +32,7 @@ Assignment is to build on top of base code, and use JQuery and a date utility li
 
 I went beyond spec and added additional features:
 
-+ Check for schedule diregards saved schedule if the date is not current date
++ Check for schedule disregards saved schedule if the date is not current date
 + Added Clock displaying user's local time
 + App auto saves tasks on the hour
 + App updates html on the hour
