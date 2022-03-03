@@ -21,10 +21,6 @@ textarea {
     border-bottom: 10px solid black;
 }
 
-#currentTime {
-    font-family: monospace;
-}
-
 .time-block {
     text-align: center;
     border-radius: 15px;
