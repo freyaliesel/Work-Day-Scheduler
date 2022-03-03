@@ -27,7 +27,6 @@
                 A simple calendar app for scheduling your work day
             </p>
             <p id="currentDay" class="lead"></p>
-            <p id="currentTime" class="lead"></p>
         </header>
         <div class="container mb-3"></div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -43,15 +42,8 @@
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
         ></script>
-        <script
-            src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.10.8/plugin/relativeTime.min.js"
-            integrity="sha512-7YYTlJ8OTdmDMztOy8q+zfRI/+y/IWnVp1oS4kiTKa+X2P09k/ObWUemEjtMoumu8v4A0s1NZu7WjfR+UxhRCQ=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-        ></script>
         <script>
             dayjs.extend(window.dayjs_plugin_advancedFormat);
-            dayjs.extend(window.dayjs_plugin_relativeTime);
         </script>
         <script src="./assets/script.js"></script>
     </body>

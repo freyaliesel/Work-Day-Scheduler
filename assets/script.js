@@ -1,29 +1,7 @@
 var time = dayjs().format("hA");
 var schedule = {};
 
-// testing area
-var testSchedule = {
-    date: "03 03 2022",
-    toDos: {
-        hour9: "test",
-        hour10: "",
-        hour11: "",
-        hour12: "second test",
-        hour13: "",
-        hour14: "",
-        hour15: "third test",
-        hour16: "",
-        hour17: "",
-    },
-};
-
-console.log(testSchedule);
-// localStorage.setItem("schedule", JSON.stringify(testSchedule));
-// end testing area
-
 // check if there is a schedule in local memory
-// need to change structure of object. I need to access the hours individually, compare time, and get at the text
-// currently seems overly complicated, and there is probably a better approach
 function checkSchedule() {
     console.log("checking for saved schedule");
     var savedSchedule = JSON.parse(localStorage.getItem("schedule"));
@@ -54,10 +32,11 @@ function checkSchedule() {
 }
 
 // display saved schedule if it is for today
-// this needs to generate the html
 function showSchedule() {
     checkSchedule();
     console.log("showing current schedule");
+    // empty the div first
+    $(".container").empty();
     for (var [hour, toDo] of Object.entries(schedule.toDos)) {
         var rowEl = $("<div>")
             .addClass("row time-block")
@@ -69,62 +48,57 @@ function showSchedule() {
             )
             .text(dayjs().hour(hour.substring(4)).format("hA"))
             .appendTo(rowEl);
-        $("<textarea>")
-            .addClass("col-10 description")
-            .val(toDo)
-            .appendTo(rowEl);
+        var textEl = $("<textarea>").val(toDo).appendTo(rowEl);
         $("<button>")
             .addClass("btn saveBtn col-1")
             .appendTo(rowEl)
             .append("<i>")
             .addClass("fa-solid fa-floppy-disk");
+
+        // apply color-coding as this is rendered
+        const timeBlock = dayjs().hour(hour.substring(4));
+        const now = dayjs();
+
+        if (timeBlock.diff(now, "hour") == 0) {
+            textEl.addClass("col-10 present");
+        } else if (timeBlock.diff(now, "hour") < 0) {
+            textEl.addClass("col-10 past");
+        } else {
+            textEl.addClass("col-10 future");
+        }
     }
-    // colorCoding();
 }
 
 // save to/do's
-// this will need to change to account for changes in how the html is generated
 function saveToDo(event) {
     event.preventDefault();
     console.log(`saving toDo`);
     var current = $(event.currentTarget);
-    console.log(current.parent("div").attr("id"));
 
     // save the text in the matching spot in the schedule
     for (var toDo of Object.keys(schedule.toDos)) {
         if (current.parent("div").attr("id") == toDo)
-        schedule.toDos[toDo] = current.siblings("textarea").val();
+            schedule.toDos[toDo] = current.siblings("textarea").val();
     }
     localStorage.setItem("schedule", JSON.stringify(schedule));
 }
 
-// change color of time blocks based on time
-// lowest priority
-function colorCoding() {
-    console.log(`color code timeblocks`);
-//     timeBlocks.each(function () {
-//         var current = $(this);
-//         var currentTime = current.children("div").text().trim();
-//         var currentText = current.children("textarea");
-//         if (currentTime == time) {
-//             console.log(time);
-//             currentText.attr("class", "col-md-10 description present");
-//         }
-//     });
+function displayDate() {
+    $("#currentDay").text(dayjs().format("dddd, MMM Do, YYYY"));
 }
-
 // DEFINITIONS ONLY ABOVE THIS POINT
 
 // timer function to track and update time and date
 setInterval(function () {
-    time = dayjs().format("hA");
-    $("#currentTime").text(dayjs().format("hh:mm:ss"));
+    // time = dayjs().format("hA");
+    displayDate();
 }, 1000);
 
 // display the date
-$("#currentDay").text(dayjs().format("dddd, MMM Do, YYYY"));
 
+displayDate();
 showSchedule();
+
 
 // event listener/delegation for buttons
 $(".container").on("click", "button", saveToDo);
