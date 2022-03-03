@@ -84,7 +84,12 @@ function saveToDo(event) {
 // update the date
 function displayDate() {
     $("#currentDay").text(dayjs().format("dddd, MMM Do, YYYY"));
+    $("#currentTime").text(dayjs().format("hh:mm:ss"));
 }
+
+setInterval(function () {
+    displayDate();
+}, 1000);
 
 displayDate();
 showSchedule();
