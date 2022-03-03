@@ -1,21 +1,24 @@
+var containerEl = $(".container");
 var time = dayjs().format("hA");
 var schedule = {};
 
 // testing area
 var testSchedule = {
-    date: "03 02 2022",
-    hour9: [9, "test content"],
-    hour10: [10, ""],
-    hour11: [11, ""],
-    hour12: [12, "more test content"],
-    hour1: [1, ""],
-    hour2: [2, ""],
-    hour3: [3, "third test content"],
-    hour4: [4, ""],
-    hour5: [5, ""],
+    date: "03 03 2022",
+    toDos: {
+        hour9: "test",
+        hour10: "",
+        hour11: "",
+        hour12: "second test",
+        hour13: "",
+        hour14: "",
+        hour15: "third test",
+        hour16: "",
+        hour17: "",
+    },
 };
 
-// console.log(testSchedule);
+console.log(testSchedule);
 // localStorage.setItem("schedule", JSON.stringify(testSchedule));
 // end testing area
 
@@ -29,19 +32,23 @@ function checkSchedule() {
     if (savedSchedule !== null) {
         if (savedSchedule.date === dayjs().format("MM DD YYYY")) {
             schedule = savedSchedule;
+            console.log(`loading saved schedule`);
         }
     } else {
+        console.log(`setting new schedule`);
         schedule = {
             date: dayjs().format("MM DD YYYY"),
-            hour9: [9, ""],
-            hour10: [10, ""],
-            hour11: [11, ""],
-            hour12: [12, ""],
-            hour1: [1, ""],
-            hour2: [2, ""],
-            hour3: [3, ""],
-            hour4: [4, ""],
-            hour5: [5, ""],
+            toDos: {
+                hour09: "",
+                hour10: "",
+                hour11: "",
+                hour12: "",
+                hour13: "",
+                hour14: "",
+                hour15: "",
+                hour16: "",
+                hour17: "",
+            },
         };
     }
     console.log(schedule);
@@ -52,20 +59,29 @@ function checkSchedule() {
 function showSchedule() {
     checkSchedule();
     console.log("showing current schedule");
-    let index = 9;
-    console.log(Object.entries(schedule));
+    // console.log(Object.entries(schedule.toDos));
+    for (var [key, toDo] of Object.entries(schedule.toDos)) {
+        var hour = key;
+        // console.log(`${hour} = ${toDo}`);
+        var rowEl = $("<div>").addClass("row time-block").attr('id', hour);
+        var colEl = $("<div>").addClass("d-flex justify-content-center align-items-center text-center col-1 hour").text(dayjs().hour(hour.substring(4)).format('hA'));
+        var inputEl = $("<textarea>").addClass("col-10 description").val(toDo);
+        var btnEl = $("<button>").addClass("btn saveBtn col-1");
+        var iconEl = $("<i>").addClass("fa-solid fa-floppy-disk");
+        btnEl.append(iconEl);
+        rowEl.append(colEl, inputEl, btnEl);
+        containerEl.append(rowEl);
+
+        
+
+
+
+    }
 
     // commented out while I figure out object structure
     // tighten this up after everything's working
     // schedule.hours.forEach((hour) => {
-    //     var rowEl = $("<div>").addClass("row time-block").attr('id', PLACEHOLDERVALUE);
-    //     var colEl = $("<div>").addClass("d-flex justify-content-center align-items-center text-center col-1 hour").text(dayjs().hour(index).format('hA'));
-    //     var inputEl = $("<textarea>").addClass("col-10 description").val(hour);
-    //     var btnEl = $("<button>").addClass("btn saveBtn col-1");
-    //     var iconEl = $("<i>").addClass("fa-solid fa-floppy-disk");
-    //     btnEl.append(iconEl);
-    //     rowEl.append(colEl, inputEl, btnEl);
-    //     $('.container').append(rowEl)
+        // $('.container').append(rowEl)
     //     index++;
     //     // console.log(rowEl.children());
     // });
