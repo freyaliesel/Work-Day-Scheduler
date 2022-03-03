@@ -87,12 +87,29 @@ function displayDate() {
     $("#currentTime").text(dayjs().format("hh:mm:ss"));
 }
 
+function autoSave () {
+    $("textarea").each(function() {
+        for (var toDo of Object.keys(schedule.toDos)) {
+            if ($(this).parent("div").attr("id") == toDo)
+                schedule.toDos[toDo] = $(this).val();
+        }
+    });
+    localStorage.setItem("schedule", JSON.stringify(schedule));
+}
+
 setInterval(function () {
     displayDate();
+
+    if (dayjs().format('mm') == 00) {
+        autoSave();
+        showSchedule;
+    }
+
 }, 1000);
 
 displayDate();
 showSchedule();
+
 
 // event listener/delegation for buttons
 $(".container").on("click", "button", saveToDo);
