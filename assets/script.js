@@ -1,4 +1,3 @@
-var time = dayjs().format("hA");
 var schedule = {};
 
 // check if there is a schedule in local memory
@@ -28,10 +27,9 @@ function checkSchedule() {
             },
         };
     }
-    console.log(schedule);
 }
 
-// display saved schedule if it is for today
+// display saved schedule if it is for current day
 function showSchedule() {
     checkSchedule();
     console.log("showing current schedule");
@@ -83,22 +81,13 @@ function saveToDo(event) {
     localStorage.setItem("schedule", JSON.stringify(schedule));
 }
 
+// update the date
 function displayDate() {
     $("#currentDay").text(dayjs().format("dddd, MMM Do, YYYY"));
 }
-// DEFINITIONS ONLY ABOVE THIS POINT
-
-// timer function to track and update time and date
-setInterval(function () {
-    // time = dayjs().format("hA");
-    displayDate();
-}, 1000);
-
-// display the date
 
 displayDate();
 showSchedule();
-
 
 // event listener/delegation for buttons
 $(".container").on("click", "button", saveToDo);
