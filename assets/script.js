@@ -58,10 +58,7 @@ function checkSchedule() {
 function showSchedule() {
     checkSchedule();
     console.log("showing current schedule");
-    // console.log(Object.entries(schedule.toDos));
-    for (var [key, toDo] of Object.entries(schedule.toDos)) {
-        var hour = key;
-        // console.log(`${hour} = ${toDo}`);
+    for (var [hour, toDo] of Object.entries(schedule.toDos)) {
         var rowEl = $("<div>").addClass("row time-block").attr('id', hour).appendTo(".container");
         $("<div>").addClass("d-flex justify-content-center align-items-center text-center col-1 hour").text(dayjs().hour(hour.substring(4)).format('hA')).appendTo(rowEl);
         $("<textarea>").addClass("col-10 description").val(toDo).appendTo(rowEl);
