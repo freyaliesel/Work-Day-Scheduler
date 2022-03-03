@@ -59,10 +59,10 @@ function showSchedule() {
 
         if (timeBlock.diff(now, "hour") == 0) {
             textEl.addClass("col-10 present");
-        } else if (timeBlock.diff(now, "hour") < 0) {
-            textEl.addClass("col-10 past");
-        } else {
+        } else if (timeBlock.diff(now, "hour") > 0) {
             textEl.addClass("col-10 future");
+        } else {
+            textEl.addClass("col-10 past");
         }
     }
 }
