@@ -88,23 +88,20 @@ function saveToDo(event) {
     event.preventDefault();
     console.log(`saving toDo`);
     var current = $(event.currentTarget);
-    console.log(current.parents());
+    console.log(current.parent("div").attr("id"));
 
     // save the text in the matching spot in the schedule
-    schedule.hours.forEach((hour) => {
-        if (current.parent("div").attr("id") == hour) {
-            schedule[key] = current.siblings("textarea").val();
-        }
-    });
-
+    for (var toDo of Object.keys(schedule.toDos)) {
+        if (current.parent("div").attr("id") == toDo)
+        schedule.toDos[toDo] = current.siblings("textarea").val();
+    }
     localStorage.setItem("schedule", JSON.stringify(schedule));
-    // console.log(schedule);
 }
 
 // change color of time blocks based on time
 // lowest priority
-// function colorCoding() {
-//     console.log(`color code timeblocks`);
+function colorCoding() {
+    console.log(`color code timeblocks`);
 //     timeBlocks.each(function () {
 //         var current = $(this);
 //         var currentTime = current.children("div").text().trim();
@@ -114,7 +111,7 @@ function saveToDo(event) {
 //             currentText.attr("class", "col-md-10 description present");
 //         }
 //     });
-// }
+}
 
 // DEFINITIONS ONLY ABOVE THIS POINT
 
