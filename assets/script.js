@@ -59,12 +59,22 @@ function showSchedule() {
     checkSchedule();
     console.log("showing current schedule");
     for (var [hour, toDo] of Object.entries(schedule.toDos)) {
-        var rowEl = $("<div>").addClass("row time-block").attr('id', hour).appendTo(".container");
-        $("<div>").addClass("d-flex justify-content-center align-items-center text-center col-1 hour").text(dayjs().hour(hour.substring(4)).format('hA')).appendTo(rowEl);
-        $("<textarea>").addClass("col-10 description").val(toDo).appendTo(rowEl);
-        var btnEl = $("<button>").addClass("btn saveBtn col-1").appendTo(rowEl);
+        var rowEl = $("<div>")
+            .addClass("row time-block")
+            .attr("id", hour)
+            .appendTo(".container");
+        $("<div>")
+            .addClass(
+                "d-flex justify-content-center align-items-center text-center col-1 hour"
+            )
+            .text(dayjs().hour(hour.substring(4)).format("hA"))
+            .appendTo(rowEl);
+        $("<textarea>")
+            .addClass("col-10 description")
+            .val(toDo)
+            .appendTo(rowEl);
+        $("<button>").addClass("btn saveBtn col-1").appendTo(rowEl);
         $("<i>").addClass("fa-solid fa-floppy-disk").appendTo(btnEl);
-
     }
     // colorCoding();
 }
