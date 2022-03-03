@@ -1,4 +1,3 @@
-var containerEl = $(".container");
 var time = dayjs().format("hA");
 var schedule = {};
 
@@ -63,29 +62,13 @@ function showSchedule() {
     for (var [key, toDo] of Object.entries(schedule.toDos)) {
         var hour = key;
         // console.log(`${hour} = ${toDo}`);
-        var rowEl = $("<div>").addClass("row time-block").attr('id', hour);
-        var colEl = $("<div>").addClass("d-flex justify-content-center align-items-center text-center col-1 hour").text(dayjs().hour(hour.substring(4)).format('hA'));
-        var inputEl = $("<textarea>").addClass("col-10 description").val(toDo);
-        var btnEl = $("<button>").addClass("btn saveBtn col-1");
-        var iconEl = $("<i>").addClass("fa-solid fa-floppy-disk");
-        btnEl.append(iconEl);
-        rowEl.append(colEl, inputEl, btnEl);
-        containerEl.append(rowEl);
-
-        
-
-
+        var rowEl = $("<div>").addClass("row time-block").attr('id', hour).appendTo(".container");
+        $("<div>").addClass("d-flex justify-content-center align-items-center text-center col-1 hour").text(dayjs().hour(hour.substring(4)).format('hA')).appendTo(rowEl);
+        $("<textarea>").addClass("col-10 description").val(toDo).appendTo(rowEl);
+        var btnEl = $("<button>").addClass("btn saveBtn col-1").appendTo(rowEl);
+        $("<i>").addClass("fa-solid fa-floppy-disk").appendTo(btnEl);
 
     }
-
-    // commented out while I figure out object structure
-    // tighten this up after everything's working
-    // schedule.hours.forEach((hour) => {
-        // $('.container').append(rowEl)
-    //     index++;
-    //     // console.log(rowEl.children());
-    // });
-
     // colorCoding();
 }
 
