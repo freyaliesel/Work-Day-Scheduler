@@ -14,17 +14,18 @@ function checkSchedule() {
         console.log(`setting new schedule`);
         schedule = {
             date: dayjs().format("MM DD YYYY"),
-            toDos: {
-                hour09: "",
-                hour10: "",
-                hour11: "",
-                hour12: "",
-                hour13: "",
-                hour14: "",
-                hour15: "",
-                hour16: "",
-                hour17: "",
-            },
+            // make this an array of objects
+            toDos: [
+                { time: "hour-9", description: "", isCompleted: false },
+                { time: "hour-10", description: "", isCompleted: false },
+                { time: "hour-11", description: "", isCompleted: false },
+                { time: "hour-12", description: "", isCompleted: false },
+                { time: "hour-13", description: "", isCompleted: false },
+                { time: "hour-14", description: "", isCompleted: false },
+                { time: "hour-15", description: "", isCompleted: false },
+                { time: "hour-16", description: "", isCompleted: false },
+                { time: "hour-17", description: "", isCompleted: false },
+            ],
         };
     }
 }
@@ -35,36 +36,52 @@ function showSchedule() {
     console.log("showing current schedule");
     // empty the div first
     $(".container").empty();
-    for (var [hour, toDo] of Object.entries(schedule.toDos)) {
+    schedule.toDos.forEach((toDo) => {
+        var hour = toDo.time.substring(toDo.time.indexOf("-") + 1);
         var rowEl = $("<div>")
             .addClass("row time-block")
-            .attr("id", hour)
+            .attr("id", toDo.time)
             .appendTo(".container");
         $("<div>")
             .addClass(
                 "d-flex justify-content-center align-items-center text-center col-1 hour"
             )
-            .text(dayjs().hour(hour.substring(4)).format("hA"))
+            .text(dayjs().hour(hour).format("hA"))
             .appendTo(rowEl);
-        var textEl = $("<textarea>").val(toDo).appendTo(rowEl);
-        $("<button>")
+        var textEl = $("<textarea>")
+            .val(toDo.description)
+            .addClass("col-9")
+            .appendTo(rowEl);
+        var checkEl = $("<button>")
+            .addClass("btn checkBtn col-1")
+            .appendTo(rowEl);
+        $("<i>").addClass("fa-solid fa-square").appendTo(checkEl);
+        var buttonEl = $("<button>")
             .addClass("btn saveBtn col-1")
-            .appendTo(rowEl)
-            .append("<i>")
-            .addClass("fa-solid fa-floppy-disk");
+            .appendTo(rowEl);
+        $("<i>").addClass("fa-solid fa-floppy-disk").appendTo(buttonEl);
 
         // apply color-coding as this is rendered
-        const timeBlock = dayjs().hour(hour.substring(4));
+        const timeBlock = dayjs().hour(hour);
         const now = dayjs();
 
         if (timeBlock.diff(now, "hour") == 0) {
-            textEl.addClass("col-10 present");
+            textEl.addClass("present");
         } else if (timeBlock.diff(now, "hour") > 0) {
-            textEl.addClass("col-10 future");
+            textEl.addClass("future");
         } else {
-            textEl.addClass("col-10 past");
+            textEl.addClass("past");
         }
-    }
+
+        // apply checkmarks as appropriate
+        if (toDo.isCompleted) {
+            checkEl.addClass("btn-success");
+            checkEl.children("i").addClass("fa-square-check");
+        } else {
+            checkEl.addClass("btn-secondary");
+            checkEl.children("i").addClass("fa-square");
+        }
+    });
 }
 
 // save to/do's
@@ -74,10 +91,55 @@ function saveToDo(event) {
     var current = $(event.currentTarget);
 
     // save the text in the matching spot in the schedule
-    for (var toDo of Object.keys(schedule.toDos)) {
-        if (current.parent("div").attr("id") == toDo)
-            schedule.toDos[toDo] = current.siblings("textarea").val();
+    schedule.toDos.forEach((task) => {
+        if (current.parent("div").attr("id") == task.time) {
+            task.description = current.siblings("textarea").val();
+            if (current.siblings(".checkBtn").hasClass("btn-success")) {
+                task.isCompleted = true;
+            } else {
+                task.isCompleted = false;
+            }
+        }
+    });
+    localStorage.setItem("schedule", JSON.stringify(schedule));
+}
+
+function checkBox(event) {
+    event.preventDefault();
+    var button = $(event.currentTarget);
+    console.log(`clicking checkbox`);
+
+    if (button.hasClass("btn-secondary")) {
+        button.removeClass("btn-secondary").addClass("btn-success");
+        button
+            .children("i")
+            .removeClass("fa-square")
+            .addClass("fa-square-check");
+        console.log(button.children("i"));
+    } else {
+        button.removeClass("btn-success").addClass("btn-secondary");
+        button
+            .children("i")
+            .removeClass("fa-square-check")
+            .addClass("fa-square");
     }
+}
+
+function autoSave() {
+    console.log(`autosaving`);
+    $("textarea").each(function () {
+        var current = $(this);
+        schedule.toDos.forEach((task) => {
+            if (current.parent("div").attr("id") == task.time) {
+                task.description = current.val();
+                if (current.siblings(".checkBtn").hasClass("btn-success")) {
+                    task.isCompleted = true;
+                } else {
+                    task.isCompleted = false;
+                }
+            }
+        });
+    });
     localStorage.setItem("schedule", JSON.stringify(schedule));
 }
 
@@ -87,21 +149,10 @@ function displayDate() {
     $("#currentTime").text(dayjs().format("h:mm a"));
 }
 
-function autoSave () {
-    console.log(`autosaving`)
-    $("textarea").each(function() {
-        for (var toDo of Object.keys(schedule.toDos)) {
-            if ($(this).parent("div").attr("id") == toDo)
-                schedule.toDos[toDo] = $(this).val();
-        }
-    });
-    localStorage.setItem("schedule", JSON.stringify(schedule));
-}
-
 setInterval(function () {
     displayDate();
 
-    if (dayjs().format('mm') == 00) {
+    if (dayjs().format("mmss") == 0) {
         autoSave();
         showSchedule;
     }
@@ -111,4 +162,12 @@ displayDate();
 showSchedule();
 
 // event listener/delegation for buttons
-$(".container").on("click", "button", saveToDo);
+$(".container").on("click", "button", function (event) {
+    if ($(event.currentTarget).hasClass("saveBtn")) {
+        saveToDo(event);
+    }
+
+    if ($(event.currentTarget).hasClass("checkBtn")) {
+        checkBox(event);
+    }
+});
