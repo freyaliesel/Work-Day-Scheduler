@@ -34,6 +34,7 @@ I went beyond spec and added additional features:
 
 + Check for schedule disregards saved schedule if the date is not current date
 + Added Clock displaying user's local time
++ Added checkboxes to track task completion
 + App auto saves tasks on the hour
 + App updates html on the hour
 
