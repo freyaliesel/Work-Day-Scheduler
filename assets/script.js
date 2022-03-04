@@ -4,7 +4,6 @@ var schedule = {};
 function checkSchedule() {
     console.log("checking for saved schedule");
     var savedSchedule = JSON.parse(localStorage.getItem("schedule"));
-
     if (savedSchedule !== null) {
         if (savedSchedule.date === dayjs().format("MM DD YYYY")) {
             schedule = savedSchedule;
@@ -14,7 +13,6 @@ function checkSchedule() {
         console.log(`setting new schedule`);
         schedule = {
             date: dayjs().format("MM DD YYYY"),
-            // make this an array of objects
             toDos: [
                 { time: "hour-9", description: "", isCompleted: false },
                 { time: "hour-10", description: "", isCompleted: false },
@@ -30,7 +28,7 @@ function checkSchedule() {
     }
 }
 
-// display saved schedule if it is for current day
+// display saved schedule
 function showSchedule() {
     checkSchedule();
     console.log("showing current schedule");
@@ -89,7 +87,6 @@ function saveToDo(event) {
     event.preventDefault();
     console.log(`saving toDo`);
     var current = $(event.currentTarget);
-
     // save the text in the matching spot in the schedule
     schedule.toDos.forEach((task) => {
         if (current.parent("div").attr("id") == task.time) {
@@ -104,18 +101,16 @@ function saveToDo(event) {
     localStorage.setItem("schedule", JSON.stringify(schedule));
 }
 
+// toggle checkboxes
 function checkBox(event) {
     event.preventDefault();
     var button = $(event.currentTarget);
-    console.log(`clicking checkbox`);
-
     if (button.hasClass("btn-secondary")) {
         button.removeClass("btn-secondary").addClass("btn-success");
         button
             .children("i")
             .removeClass("fa-square")
             .addClass("fa-square-check");
-        console.log(button.children("i"));
     } else {
         button.removeClass("btn-success").addClass("btn-secondary");
         button
@@ -151,7 +146,6 @@ function displayDate() {
 
 setInterval(function () {
     displayDate();
-
     if (dayjs().format("mmss") == 0) {
         autoSave();
         showSchedule;
