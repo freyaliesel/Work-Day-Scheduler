@@ -28,7 +28,6 @@ function checkSchedule() {
             ],
         };
     }
-    console.log(schedule);
 }
 
 // display saved schedule if it is for current day
@@ -38,7 +37,7 @@ function showSchedule() {
     // empty the div first
     $(".container").empty();
     schedule.toDos.forEach((toDo) => {
-        var hour = toDo.time.substring(toDo.time.indexOf('-') + 1);
+        var hour = toDo.time.substring(toDo.time.indexOf("-") + 1);
         var rowEl = $("<div>")
             .addClass("row time-block")
             .attr("id", toDo.time)
@@ -66,9 +65,9 @@ function showSchedule() {
         const timeBlock = dayjs().hour(hour);
         const now = dayjs();
 
-        if (timeBlock.diff(now, 'hour') == 0) {
+        if (timeBlock.diff(now, "hour") == 0) {
             textEl.addClass("present");
-        } else if (timeBlock.diff(now, 'hour') > 0) {
+        } else if (timeBlock.diff(now, "hour") > 0) {
             textEl.addClass("future");
         } else {
             textEl.addClass("past");
@@ -92,29 +91,14 @@ function saveToDo(event) {
     var current = $(event.currentTarget);
 
     // save the text in the matching spot in the schedule
-    schedule.toDos.forEach((toDo) => {
-        if (current.parent("div").attr("id") == task) {
-            schedule.toDos[0] = current.siblings("textarea").val();
-            if (current.siblings("button").hasClass("btn-success")) {
-                schedule.toDos = true;
+    schedule.toDos.forEach((task) => {
+        if (current.parent("div").attr("id") == task.time) {
+            task.description = current.siblings("textarea").val();
+            if (current.siblings(".checkBtn").hasClass("btn-success")) {
+                task.isCompleted = true;
+            } else {
+                task.isCompleted = false;
             }
-        }
-    })
-    localStorage.setItem("schedule", JSON.stringify(schedule));
-}
-
-// update the date
-function displayDate() {
-    $("#currentDay").text(dayjs().format("dddd, MMM Do, YYYY"));
-    $("#currentTime").text(dayjs().format("h:mm a"));
-}
-
-function autoSave() {
-    console.log(`autosaving`);
-    $("textarea").each(function () {
-        for (var task of Object.keys(schedule.toDos)) {
-            if ($(this).parent("div").attr("id") == task)
-                schedule.toDos[toDo] = $(this).val();
         }
     });
     localStorage.setItem("schedule", JSON.stringify(schedule));
@@ -141,6 +125,30 @@ function checkBox(event) {
     }
 }
 
+function autoSave() {
+    console.log(`autosaving`);
+    $("textarea").each(function () {
+        var current = $(this);
+        schedule.toDos.forEach((task) => {
+            if (current.parent("div").attr("id") == task.time) {
+                task.description = current.val();
+                if (current.siblings(".checkBtn").hasClass("btn-success")) {
+                    task.isCompleted = true;
+                } else {
+                    task.isCompleted = false;
+                }
+            }
+        });
+    });
+    localStorage.setItem("schedule", JSON.stringify(schedule));
+}
+
+// update the date
+function displayDate() {
+    $("#currentDay").text(dayjs().format("dddd, MMM Do, YYYY"));
+    $("#currentTime").text(dayjs().format("h:mm a"));
+}
+
 setInterval(function () {
     displayDate();
 
@@ -154,8 +162,6 @@ displayDate();
 showSchedule();
 
 // event listener/delegation for buttons
-// $(".container").on("click", ".saveBtn", saveToDo);
-
 $(".container").on("click", "button", function (event) {
     if ($(event.currentTarget).hasClass("saveBtn")) {
         saveToDo(event);
