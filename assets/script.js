@@ -14,17 +14,18 @@ function checkSchedule() {
         console.log(`setting new schedule`);
         schedule = {
             date: dayjs().format("MM DD YYYY"),
-            toDos: {
-                hour09: ["", false],
-                hour10: ["", false],
-                hour11: ["", false],
-                hour12: ["", false],
-                hour13: ["", false],
-                hour14: ["", false],
-                hour15: ["", false],
-                hour16: ["", false],
-                hour17: ["", false],
-            },
+            // make this an array of objects
+            toDos: [
+                { time: "hour-9", description: "", isCompleted: false },
+                { time: "hour-10", description: "", isCompleted: false },
+                { time: "hour-11", description: "", isCompleted: false },
+                { time: "hour-12", description: "", isCompleted: false },
+                { time: "hour-13", description: "", isCompleted: false },
+                { time: "hour-14", description: "", isCompleted: false },
+                { time: "hour-15", description: "", isCompleted: false },
+                { time: "hour-16", description: "", isCompleted: false },
+                { time: "hour-17", description: "", isCompleted: false },
+            ],
         };
     }
     console.log(schedule);
@@ -36,19 +37,20 @@ function showSchedule() {
     console.log("showing current schedule");
     // empty the div first
     $(".container").empty();
-    for (var [hour, toDo] of Object.entries(schedule.toDos)) {
+    schedule.toDos.forEach((toDo) => {
+        var hour = toDo.time.substring(toDo.time.indexOf('-') + 1);
         var rowEl = $("<div>")
             .addClass("row time-block")
-            .attr("id", hour)
+            .attr("id", toDo.time)
             .appendTo(".container");
         $("<div>")
             .addClass(
                 "d-flex justify-content-center align-items-center text-center col-1 hour"
             )
-            .text(dayjs().hour(hour.substring(4)).format("hA"))
+            .text(dayjs().hour(hour).format("hA"))
             .appendTo(rowEl);
         var textEl = $("<textarea>")
-            .val(toDo[0])
+            .val(toDo.description)
             .addClass("col-9")
             .appendTo(rowEl);
         var checkEl = $("<button>")
@@ -61,26 +63,26 @@ function showSchedule() {
         $("<i>").addClass("fa-solid fa-floppy-disk").appendTo(buttonEl);
 
         // apply color-coding as this is rendered
-        const timeBlock = dayjs().hour(hour.substring(4));
+        const timeBlock = dayjs().hour(hour);
         const now = dayjs();
 
-        if (timeBlock.diff(now, "hour") == 0) {
+        if (timeBlock.diff(now, 'hour') == 0) {
             textEl.addClass("present");
-        } else if (timeBlock.diff(now, "hour") > 0) {
+        } else if (timeBlock.diff(now, 'hour') > 0) {
             textEl.addClass("future");
         } else {
             textEl.addClass("past");
         }
 
         // apply checkmarks as appropriate
-        if (toDo[1]) {
+        if (toDo.isCompleted) {
             checkEl.addClass("btn-success");
             checkEl.children("i").addClass("fa-square-check");
         } else {
             checkEl.addClass("btn-secondary");
             checkEl.children("i").addClass("fa-square");
         }
-    }
+    });
 }
 
 // save to/do's
@@ -90,14 +92,14 @@ function saveToDo(event) {
     var current = $(event.currentTarget);
 
     // save the text in the matching spot in the schedule
-    for (var task of Object.keys(schedule.toDos)) {
+    schedule.toDos.forEach((toDo) => {
         if (current.parent("div").attr("id") == task) {
             schedule.toDos[0] = current.siblings("textarea").val();
             if (current.siblings("button").hasClass("btn-success")) {
                 schedule.toDos = true;
             }
         }
-    }
+    })
     localStorage.setItem("schedule", JSON.stringify(schedule));
 }
 
@@ -110,8 +112,8 @@ function displayDate() {
 function autoSave() {
     console.log(`autosaving`);
     $("textarea").each(function () {
-        for (var toDo of Object.keys(schedule.toDos)) {
-            if ($(this).parent("div").attr("id") == toDo)
+        for (var task of Object.keys(schedule.toDos)) {
+            if ($(this).parent("div").attr("id") == task)
                 schedule.toDos[toDo] = $(this).val();
         }
     });
@@ -142,7 +144,7 @@ function checkBox(event) {
 setInterval(function () {
     displayDate();
 
-    if (dayjs().format("mm") == 00) {
+    if (dayjs().format("mmss") == 0) {
         autoSave();
         showSchedule;
     }
