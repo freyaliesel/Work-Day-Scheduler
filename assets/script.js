@@ -4,11 +4,9 @@ var schedule = {};
 function checkSchedule() {
     console.log("checking for saved schedule");
     var savedSchedule = JSON.parse(localStorage.getItem("schedule"));
-    if (savedSchedule !== null) {
-        if (savedSchedule.date === dayjs().format("MM DD YYYY")) {
+    if (savedSchedule !== null && savedSchedule.date === dayjs().format("MM DD YYYY")) {
             schedule = savedSchedule;
             console.log(`loading saved schedule`);
-        }
     } else {
         console.log(`setting new schedule`);
         schedule = {
